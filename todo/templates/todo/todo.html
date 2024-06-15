@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        function openTab(evt, tabName) {
+            const tabContent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            const tabLinks = document.getElementsByClassName("tab-link");
+            for (let i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("default-tab").click();
+        });
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4">ToDo List</h2>
+        <form id="todo-form" class="flex mb-4">
+            <input type="text" id="new-task" placeholder="New task" class="flex-grow border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Add</button>
+        </form>
+        
+        <div class="mb-6">
+            <div class="flex border-b border-gray-300">
+                <button class="tab-link px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" onclick="openTab(event, 'today-tasks')" id="default-tab">Задачи на сегодня</button>
+                <button class="tab-link px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" onclick="openTab(event, 'all-tasks')">Все задачи</button>
+                <button class="tab-link px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" onclick="openTab(event, 'completed-tasks')">Выполненные</button>
+            </div>
+            <div id="today-tasks" class="tab-content mt-4">
+                <ul id="today-task-list" class="list-disc list-inside">
+                    <!-- Today's tasks will be added here -->
+                </ul>
+            </div>
+            <div id="all-tasks" class="tab-content mt-4" style="display:none">
+                <ul id="all-task-list" class="list-disc list-inside">
+                    <!-- All tasks will be added here -->
+                </ul>
+            </div>
+            <div id="completed-tasks" class="tab-content mt-4" style="display:none">
+                <ul id="completed-task-list" class="list-disc list-inside">
+                    <!-- Completed tasks will be added here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('todo-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const newTaskInput = document.getElementById('new-task');
+            const newTaskText = newTaskInput.value.trim();
+            if (newTaskText !== "") {
+                const todayTaskList = document.getElementById('today-task-list');
+                const allTaskList = document.getElementById('all-task-list');
+                
+                const newTask = document.createElement('li');
+                newTask.classList.add('flex', 'items-center', 'justify-between', 'bg-gray-100', 'p-2', 'rounded', 'mb-2', 'shadow-sm');
+                newTask.innerHTML = `
+                    <span>${newTaskText}</span>
+                    <div>
+                        <button class="bg-green-500 text-white px-2 py-1 rounded mr-2 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">Complete</button>
+                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Delete</button>
+                    </div>
+                `;
+                
+                const completeButton = newTask.querySelector('.bg-green-500');
+                const deleteButton = newTask.querySelector('.bg-red-500');
+                
+                completeButton.addEventListener('click', function() {
+                    const completedTaskList = document.getElementById('completed-task-list');
+                    newTask.removeChild(completeButton);
+                    completedTaskList.appendChild(newTask);
+                });
+                
+                deleteButton.addEventListener('click', function() {
+                    if (todayTaskList.contains(newTask)) {
+                        todayTaskList.removeChild(newTask);
+                    }
+                    if (allTaskList.contains(newTask)) {
+                        allTaskList.removeChild(newTask);
+                    }
+                });
+                
+                todayTaskList.appendChild(newTask);
+                allTaskList.appendChild(newTask);
+                newTaskInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
