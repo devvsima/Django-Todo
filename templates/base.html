@@ -56,9 +56,16 @@
                         class="text-sm font-semibold leading-6 text-gray-900">Log in
                         <span aria-hidden="true">&rarr;</span></a>
                     {% else %}
+                        {% if user.is_admin or user.is_staff %}
+                            <a href="{% url 'admin:index'%}"
+                            class="pl-2 text-sm font-semibold leading-6 text-gray-900"><span class="material-symbols-outlined">
+                                shield_person
+                                </span></a>
+                        {% endif %}
+
                     
                     <a href="{% url 'users:logout'%}"
-                        class="text-sm font-semibold leading-6 text-gray-900">Logout
+                        class="text-sm font-semibold leading-6 text-gray-900">  Logout
                         <span aria-hidden="true">&rarr;</span></a>
                     {% endif %}
 
