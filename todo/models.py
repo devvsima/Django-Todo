@@ -7,8 +7,8 @@ class TodoList(models.Model):
     content = models.TextField(blank=True)  # Текстовое поле
     created = models.DateField(default=timezone.now)  # Дата создания
     due_date = models.DateField()  # До какой даты нужно было сделать дело
-    image = models.ImageField(upload_to="goods_images", blank=True, null=True, verbose_name="Фотографія")
-    category = models.BooleanField(default=False)  # Поле с правильным ключом default
+    image = models.ImageField(upload_to="images", blank=True, null=True, verbose_name="Фотографія")
+    done = models.BooleanField(default=False)  # Поле с правильным ключом default
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     class Meta:

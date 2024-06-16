@@ -5,20 +5,21 @@ from .forms import SignUpForm, LoginForm
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from .forms import LoginForm, SignUpForm
+from django.http import HttpResponseRedirect
 
 def signup_view(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(data=request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
+            user = form.instance
+            auth.login(request, user)
+            return HttpResponseRedirect(reverse('main:index'))
     else:
         form = SignUpForm()
     return render(request, 'users/signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':

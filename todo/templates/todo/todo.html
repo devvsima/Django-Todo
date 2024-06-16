@@ -1,30 +1,63 @@
 {% extends "base.html" %}
+{%load static%}
+
 
 
 
 
 {% block content %}
+<div class="text-center">
+    <h1
+        class="text-xl font-bold tracking-tight text-gray-600 sm:text-6xl">{{name}}</h1>
+</div>
+<div
+class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+aria-hidden="true">
+<div
+    class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+    style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+</div>
 <body class="flex flex-col items-center min-h-screen bg-gray-100 pt-20">
-    
-    <ul class="mt-4 w-full max-w-2xl space-y-2">
-    {% for i in todolist %}
-    <li class="flex items-center justify-between px-4 py-2 bg-white border rounded-md shadow-sm">
-        <div class="flex items-center">
-            <i class="fas fa-check-circle text-green-500 mr-2"></i>
-            <span>{{i.title}}</span>
-        </div>
-        <div class="flex items-center space-x-2">
-            <span class="text-gray-500 text-sm">{{i.due_date}}</span>
-            <button class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                <i class="fas fa-check"></i>
-            </button>
-            <button class="text-red-500 hover:text-red-700 focus:outline-none">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-    </li>
-    {% endfor %}
-     
+    <ul class="mt-4 w-full max-w-2xl space-y-4">
+        {% for i in todolist %}
+        <li class="flex items-center justify-between px-6 py-4 bg-white border rounded-md shadow-sm">
+            <div class="flex items-center space-x-4">
+                {% if i.image %}
+                <img src="{{ i.image.url }}" alt="Image" class="w-16 h-16 object-cover rounded-md">
+                {% endif %}
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                <a href="{% url 'todo:edit' i.id %}" class="font-medium">{{ i.title }}</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'todo:delete' i.id %}" class="bg-red-100 rounded-md text-red-500 hover:text-red-700 focus:outline-none">
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+                </a>
+                {% if i.done %}
+                <a href="{% url 'todo:mark_as_current' i.id %}" class="bg-yellow-100 rounded-md text-yellow-500 hover:text-yellow-700 focus:outline-none">
+                    <span class="material-symbols-outlined">
+                        restart_alt
+                    </span>
+                </a>
+                {% else %}
+                <a href="{% url 'todo:mark_as_done' i.id %}" class="bg-green-100 rounded-md text-green-500 hover:text-green-700 focus:outline-none">
+                    <span class="material-symbols-outlined">
+                        check
+                    </span>
+                </a>
+                {% endif %}
+                <span class="text-gray-500 text-sm">{{ i.due_date }}</span>
+            </div>
+        </li>
+        {% endfor %}
     </ul>
 </body>
+<div
+class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+aria-hidden="true">
+<div
+    class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+    style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+</div>
 {% endblock content %}

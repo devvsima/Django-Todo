@@ -9,7 +9,7 @@
             {% block title %}{% endblock title %}
         </title>
 
-        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet" href="{% static 'css/output.css' %}">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -41,7 +41,7 @@
                 <div class="hidden lg:flex lg:gap-x-12">
                     <a href="{% url 'todo:create' %}"
                         class="text-sm font-semibold leading-6 text-gray-900">Create</a>
-                    <a href="{% url 'todo:currenttodos' %}"
+                    <a href="{% url 'todo:current' %}"
                         class="text-sm font-semibold leading-6 text-gray-900">Current</a>
                     <a href="{% url 'todo:done' %}"
                         class="text-sm font-semibold leading-6 text-gray-900">Completed</a>

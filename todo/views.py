@@ -4,35 +4,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import TodoForm
 from .models import TodoList
 # Create your views here.
-def index(request) -> HttpResponse:
-    todolist = TodoList.objects.filter(user=request.user)
-    context = {
-        "title": 'Online Organizer',
-        "todolist": todolist,
-        
-    }
-
-    
-    return render(request, 'todo/todo.html', context)
 
 
-@login_required
-def all_todo(request):
-    todos = TodoList.objects.filter(user=request.user).order_by('-created')
-    return render(request, 'todo/todo.html', {'todos':todos})
 
-@login_required
-def done_todo(request):
-    todos = TodoList.objects.filter(user=request.user).order_by('-due_date')
-    return render(request, 'todo/todo.html', {'todos':todos})
-
-@login_required
-def delete_todo(request, todo_pk):
-    todo = get_object_or_404(TodoList, pk=todo_pk, user=request.user)
-    if request.method == 'POST':
-        todo.delete()
-        return redirect('currenttodos')
-    
 @login_required
 def create_todo(request):
     if request.method == 'GET':
@@ -47,41 +21,73 @@ def create_todo(request):
             newtodo = form.save(commit=False)
             newtodo.user = request.user
             newtodo.save()
-            print('ale3')
             
-            return redirect('todo:currenttodos')
+            return redirect('todo:current')
         else:
             return render(request, 'todo/create_todo.html', {'form': form, 'error': 'Неверно заполненное поле'})
         # except ValueError:
         #     return render(request, 'todo/create_todo.html', {'form': TodoForm(), 'error': 'Неверно заполненное поле'})
 
-
-
 @login_required
-def viewtodo(request, todo_pk):
-    todo = get_object_or_404(TodoList, pk=todo_pk, user=request.user)
-    form = TodoForm(instance=todo)
+def edit_todo(request, task_id):
+    todo = get_object_or_404(TodoList, id=task_id, user=request.user)
     if request.method == 'GET':
         form = TodoForm(instance=todo)
-        return render(request, 'todo/viewtodo.html', {'todo':todo, 'form':form})
+        return render(request, 'todo/edit_todo.html', {'form': form, 'todo': todo})
     else:
         try:
-            form = TodoForm(request.POST, instance=todo)
-            form.save()
-            return redirect('todo:currenttodos')
-
+            form = TodoForm(request.POST, request.FILES, instance=todo)
+            if form.is_valid():
+                form.save()
+                return redirect('todo:current')
+            else:
+                return render(request, 'todo/edit_todo.html', {'form': form, 'todo': todo, 'error': 'Неверно заполненное поле'})
         except ValueError:
-            return render(request, 'todo/view.html', {'form':todo, 'error':'неверно заполненое поле'})
+            return render(request, 'todo/edit_todo.html', {'form': form, 'todo': todo, 'error': 'Неверно заполненное поле'})
+        
+@login_required
+def mark_as_done(request, task_id):
+    todo = TodoList.objects.filter(id=task_id)
+    todo.update(done=True)
+    return redirect('todo:current')
 
 @login_required
-def deletetodo(request, todo_pk):
-    todo = get_object_or_404(TodoList, pk=todo_pk, user=request.user)
-    if request.method == 'POST':
-        todo.delete()
-        return redirect('todo:currenttodos')
+def mark_as_current(request, task_id):
+    todo = TodoList.objects.filter(id=task_id)
+    todo.update(done=False)
+    return redirect('todo:done')
+
+@login_required
+def delete_todo(request, task_id):
+    todo = TodoList.objects.filter(id=task_id)
+    todo.delete()
+    return redirect('todo:current')
     
+# ---------------------------------------------------------------------
     
 @login_required
-def currenttodos(request):
-    todos = TodoList.objects.filter(user=request.user, ).order_by('-created')
-    return render(request, 'todo/todo.html', {'todolist':todos})
+def current_todo(request):
+    todos = TodoList.objects.filter(user=request.user, done=False).order_by('-created')
+    context = {
+        'name':'Current',
+        'todolist':todos
+    }
+    return render(request, 'todo/todo.html', context)
+
+@login_required
+def all_todo(request):
+    todos = TodoList.objects.filter(user=request.user).order_by('-created')
+    context = {
+        'name':'All',
+        'todolist':todos
+    }
+    return render(request, 'todo/todo.html', context)
+
+@login_required
+def done_todo(request):
+    todos = TodoList.objects.filter(user=request.user, done=True)
+    context = {
+        'name':'Done',
+        'todolist':todos
+    }
+    return render(request, 'todo/todo.html', context)

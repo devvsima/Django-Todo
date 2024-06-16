@@ -9,11 +9,11 @@ class TodoForm(ModelForm):
         
     title = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500',
-        'placeholder': 'Введите название'
+        'placeholder': 'Введіть назву'
     }))
     content = forms.CharField(widget=forms.Textarea(attrs={
         'class': 'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500',
-        'placeholder': 'Введите описание'
+        'placeholder': 'Введіть опис'
     }))
     image = forms.ImageField(widget=forms.FileInput(attrs={
         'class': 'w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500'

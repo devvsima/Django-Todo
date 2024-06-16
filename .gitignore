@@ -12,4 +12,4 @@ database.sqlite3
 
 **/.env
 **/logs
-**/goods_images
+**/images
