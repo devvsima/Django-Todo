@@ -5,11 +5,10 @@
 ![Add task](https://github.com/devvsima/NewTodo/blob/main/github_photo/add.png?raw=true)
 
 
-# Getting start
-## How to install?
+# How to run?
 
 
-### Tailwindcss
+## Tailwindcss
 
 ```bash
 npm init -y
@@ -19,7 +18,7 @@ npm init -y
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init
 ```
-### Djnago
+## Djnago
 
 Database
 ```bash
