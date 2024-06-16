@@ -1,8 +1,8 @@
 # Site view
 
-![Main page]([github_photo\main.png](https://github.com/devvsima/NewTodo/blob/main/github_photo/add.png?raw=true))
-![Done tasks]([github_photo\done.png](https://github.com/devvsima/NewTodo/blob/main/github_photo/done.png?raw=true))
-![Add task]([github_photo\add.png](https://github.com/devvsima/NewTodo/blob/main/github_photo/add.png?raw=true))
+![Main page](https://github.com/devvsima/NewTodo/blob/main/github_photo/add.png?raw=true)
+![Done tasks](https://github.com/devvsima/NewTodo/blob/main/github_photo/done.png?raw=true)
+![Add task](https://github.com/devvsima/NewTodo/blob/main/github_photo/add.png?raw=true)
 
 
 # Getting start
