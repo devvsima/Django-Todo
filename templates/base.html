@@ -12,6 +12,7 @@
         
         <link rel="stylesheet" href="{% static 'css/output.css' %}">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <header class="absolute inset-x-0 top-0 z-50">
@@ -19,7 +20,7 @@
                 aria-label="Global">
                 <div class="flex lg:flex-1">
                     <a href="#" class="-m-1.5 p-1.5">
-                        <span class="sr-only">Your Company</span>
+                        <span class="sr-only">Online Organizer</span>
                         <img class="h-8 w-auto"
                             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                             alt>
@@ -38,19 +39,29 @@
                     </button>
                 </div>
                 <div class="hidden lg:flex lg:gap-x-12">
-                    <a href="#"
-                        class="text-sm font-semibold leading-6 text-gray-900">Product</a>
-                    <a href="#"
-                        class="text-sm font-semibold leading-6 text-gray-900">Features</a>
-                    <a href="#"
-                        class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
-                    <a href="#"
-                        class="text-sm font-semibold leading-6 text-gray-900">Company</a>
+                    <a href="{% url 'todo:create' %}"
+                        class="text-sm font-semibold leading-6 text-gray-900">Create</a>
+                    <a href="{% url 'todo:currenttodos' %}"
+                        class="text-sm font-semibold leading-6 text-gray-900">Current</a>
+                    <a href="{% url 'todo:done' %}"
+                        class="text-sm font-semibold leading-6 text-gray-900">Completed</a>
+                    <a href="{% url 'todo:all' %}"
+                        class="text-sm font-semibold leading-6 text-gray-900">All</a>
+
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                    {% if not user.is_authenticated %}  
+
                     <a href="{% url 'users:login'%}"
                         class="text-sm font-semibold leading-6 text-gray-900">Log in
                         <span aria-hidden="true">&rarr;</span></a>
+                    {% else %}
+                    
+                    <a href="{% url 'users:logout'%}"
+                        class="text-sm font-semibold leading-6 text-gray-900">Logout
+                        <span aria-hidden="true">&rarr;</span></a>
+                    {% endif %}
+
                 </div>
             </nav>
             <!-- Mobile menu, show/hide based on menu open state. -->
@@ -99,7 +110,7 @@
                 </div>
             </div>
         </header>
+    </body>
     {% block content %}
     {% endblock content %}
-    </body>
 </html>

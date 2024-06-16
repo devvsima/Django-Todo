@@ -2,6 +2,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from .forms import SignUpForm, LoginForm
+from django.contrib import auth, messages
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 def signup_view(request):
     if request.method == 'POST':
@@ -23,7 +26,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')
+            return redirect('main:index')
     else:
         form = LoginForm()
     return render(request, 'users/login.html', {'form': form})
@@ -34,3 +37,8 @@ def index(request):
         "title": 'Online Organizer',
     }
     return render(request, 'users/index.html', context)
+
+@login_required
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse('main:index'))
