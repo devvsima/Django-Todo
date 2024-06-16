@@ -3,7 +3,7 @@
 {% block content %}
 <div class="flex items-center justify-center min-h-screen ">
     <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-6">Додати задачу</h2>
+        <h2 class="text-2xl font-bold mb-6">Add task</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-4">
@@ -31,7 +31,7 @@
             </div>
             <div class="flex justify-end">
                 <button type="submit" class="px-6 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Додати
+                    Create
                 </button>
             </div>
         </form>
